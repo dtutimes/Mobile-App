@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Image, ActivityIndicator} from 'react-native';
+import {View, StyleSheet, Image, ActivityIndicator, Linking} from 'react-native';
 import {createDrawerNavigator,
         createAppContainer,
         createStackNavigator} from 'react-navigation';
@@ -98,7 +98,7 @@ class BlogTab extends Component {/*
                   )}>
                   <Image source={{uri: elementObject.image}} style={{height: 200, width: null, flex: 1}}/>
                   </CardItem>
-                  <CardItem button onPress= {()=> alert('hi')} style={{textAlign:'justify'}}>
+                  <CardItem button onPress= {()=> {Linking.openURL('https://google.com')}} style={{textAlign:'justify'}}>
                   <Body>
                     <Title style= {{fontSize:25, fontWeight: 'normal', textAlign: 'justify', }}>{elementObject.title}</Title>
                     <Subtitle style= {{fontSize:15, color: 'green', fontStyle: 'italic'}}>{elementObject.biliner}</Subtitle>

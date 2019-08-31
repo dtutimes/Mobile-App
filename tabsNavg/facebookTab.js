@@ -8,38 +8,52 @@ class FacebookTab extends Component {
     return (
       <Container>
         <Content>
-          <Card transparent>
+         <Card transparent>
+           <CardItem cardBody>
+             <Image source={require('../goldbloom.jpg')} style={{height: 200, width: null, flex:1}} />
+           </CardItem>
+           <CardItem>
+             <Left>
+               <Text>
+                 <Ionicons name={'md-thumbs-up'} size={25} color={'green'} />
+                 X likes</Text>
+             </Left>
+             <Right>
+               <Text>
+                 <Ionicons name={'ios-chatbubbles'} size={25} color={'green'} />
+                   X comments</Text>
+             </Right>
+           </CardItem>
+           <CardItem>
+             <Body>
+               <Text>Maybe it is a blessing in disguise. I see my reflection in your eyes, I know you see it too.</Text>
+             </Body>
+           </CardItem>
+        </Card>
 
-            <CardItem>
-              <Left>
-                <Thumbnail source={require('../goldbloom.jpg')} />
-                <Body>
-                  <Text style={{fontWeight:'bold'}}>dtu_times</Text>
-                  <Text style={{color:'gray',}}>11h ago</Text>
-                </Body>
-              </Left>
-            </CardItem>
-            <CardItem>
-              <Body>
-                <Text>Maybe it is a blessing in disguise. I see my reflection in your eyes, I know you see it too.</Text>
-              </Body>
-            </CardItem>
-            <CardItem cardBody>
-              <Image source={require('../goldbloom.jpg')} style={{height: 200, width: null, flex:1}} />
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Text>
-                  <Ionicons name={'md-thumbs-up'} size={25} color={'green'} />
-                  X likes</Text>
-              </Left>
-              <Right>
-                <Text>
-                  <Ionicons name={'ios-chatbubbles'} size={25} color={'green'} />
-                    X comments</Text>
-              </Right>
-            </CardItem>
-         </Card>
+        <Card transparent>
+          <CardItem cardBody>
+            <Image source={require('../goldbloom.jpg')} style={{height: 200, width: null, flex:1}} />
+          </CardItem>
+          <CardItem>
+            <Left>
+              <Text>
+                <Ionicons name={'md-thumbs-up'} size={25} color={'green'} />
+                X likes</Text>
+            </Left>
+            <Right>
+              <Text>
+                <Ionicons name={'ios-chatbubbles'} size={25} color={'green'} />
+                  X comments</Text>
+            </Right>
+          </CardItem>
+          <CardItem>
+            <Body>
+              <Text>Maybe it is a blessing in disguise. I see my reflection in your eyes, I know you see it too.</Text>
+            </Body>
+          </CardItem>
+       </Card>
+
         </Content>
       </Container>
     )

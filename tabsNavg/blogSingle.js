@@ -7,7 +7,7 @@ class BlogSingleTab extends Component {
   render(){
 
     const { navigation } = this.props;
-    const regex = /[</p>]/ig;
+    const regex = /(<([^>]+)>)/ig;
 
     return (
       <Container>

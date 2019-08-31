@@ -1,10 +1,19 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform,
+        StyleSheet,
+        Text,
+        View,
+        ScrollView,
+        Linking,
+        Image,
+        Button,} from 'react-native';
 import {  createBottomTabNavigator,
           createSwitchNavigator,
           createDrawerNavigator,
           createAppContainer,
           createStackNavigator,
+          DrawerItems,
+          SafeAreaView,
         } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BlogTab from './tabsNavg/blogTab'
@@ -25,6 +34,28 @@ const instructions = Platform.select({
 });
 
 //type Props = {};
+
+const customDrawerNavg = (props) => (
+  <SafeAreaView style={{flex:1}}>
+  <View style={styles.custDrawer}>
+    <Image source = {require('./log.png')} style={{height:100, width:100, margin:30}} />
+  </View>
+    <ScrollView>
+      <DrawerItems {...props}/>
+      <Button color='black' title='Home' onPress={ ()=> {props.navigation.closeDrawer()} } />
+      <Button color='black' title='Edition' onPress={ ()=>{Linking.openURL('http://dtutimes.dtu.ac.in/editions')}} />
+      <Button color='black' title='Team' onPress={ ()=>{Linking.openURL('http://dtutimes.dtu.ac.in/team')}} />
+      <Button color='black' title='Contact Us' onPress={ ()=>{Linking.openURL('http://dtutimes.dtu.ac.in/contact')}} />
+    </ScrollView>
+  </SafeAreaView>
+)
+/*
+const getDrawerTab = (navigation) => {
+  const {routeName} = navigation.state;
+  if (routeName === 'Profile'){
+    return routeName;
+  }
+}*/
 
 const getTabIcon = (navigation, focused, tintColor) => {
   const { routeName } = navigation.state;
@@ -97,19 +128,44 @@ const DrawerNavg = createDrawerNavigator(
   {
     Home: {
       screen: StackTabNavg,
+      navigationOptions: {
+        drawerLabel: ()=>null,
+      }
+    }
+      //title: {
+      //  visible: false,
+    },/*
+      contentOptions: {
+      onItemPress()=>{ Linking.openURL('https://google.com')}
+    },
     },
     Profile: {
       screen: ProfileScreen,
+
     },
     Edition: {
       screen: EditionScreen,
     },
     Team: {
       screen: TeamScreen,
+      /*navigationOptions: onPress=()=> {
+        Linking.openURL('https://facebook.com')
+      }
     },
     Contact: {
-      screen: ContactScreen,
-    },
+      screen: ContactScreen,*/
+    //},
+  {
+    alignItems: 'center',
+    drawerBackgroundColor: 'white',
+    contentComponent: customDrawerNavg,
+    //yeh ganda lagta hai hatadena
+    contentOptions: {
+      activeTintColor: 'black',
+      inactiveTintColor: 'gray',
+      //onItemPress: ('Profile')=> {Linking.openURL('https://yahoo.com')},
+      //onItemPress= ()=> {Linking.openURL('https://yahoo.com')}
+    }
   },
 );
 /*
@@ -182,6 +238,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  custDrawer: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   welcome: {
     fontSize: 20,
