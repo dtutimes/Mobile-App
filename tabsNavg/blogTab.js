@@ -3,9 +3,10 @@ import {View, StyleSheet, Image, ActivityIndicator, Linking} from 'react-native'
 import {createDrawerNavigator,
         createAppContainer,
         createStackNavigator} from 'react-navigation';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Title, Body, Subtitle, Left, Right} from 'native-base';
+import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Title, Body, Subtitle, Left, Right, Item} from 'native-base';
 import BlogSingleTab from './blogSingle.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
 
 class BlogTab extends Component {/*
   static navigationOptions = {
@@ -25,34 +26,33 @@ class BlogTab extends Component {/*
 
   constructor(props){
     super(props);
+    
     this.state = {
       isLoading: true,
       dataSource: null,
     }
   }
 
-  componentDidMount(){
-    return fetch('http://insider.dtutimes.me/api/v1/blog')
-      .then ((response)=> response.json())
-      .then ((responseJson)=> {
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson,
-        },
-        function(){
-
-        });
-      })
-      .catch((error) => {
-        console.error(error);
+  async componentDidMount(){
+    try {
+      const response = await fetch('https://api.myjson.com/bins/uiamd');
+      const responseJson = await response.json();
+      this.setState({
+        isLoading: false,
+        dataSource: responseJson.posts,
+      }, function () {
       });
+    }
+    catch (error) {
+      console.error(error);
+    }
   }
 
   render(){
 
     if (this.state.isLoading){
       return(
-        <View style={{flex: 1, padding: 20}}>
+        <View style={{flex: 1, justifyContent: 'center'}}>
           <ActivityIndicator />
         </View>
       )
@@ -65,7 +65,7 @@ class BlogTab extends Component {/*
 
           {this.dispData()}
 
-        <Card>
+       <Card>
             <CardItem button onPress= {()=> this.props.navigation.navigate('SingleSwitch')}>
             <Image source={require('../goldbloom.jpg')} style={{height: 200, width: null, flex: 1}}/>
             </CardItem>
@@ -76,6 +76,7 @@ class BlogTab extends Component {/*
             </Body>
             </CardItem>
          </Card>
+         
 
         </Content>
       </Container>
@@ -86,28 +87,30 @@ class BlogTab extends Component {/*
         return this.state.dataSource.map((elementObject) => {
           return (
 
-              <Card key={elementObject.uuid}>
+              <Card key={elementObject.id}>
                   <CardItem
                     button onPress= {()=> this.props.navigation.navigate('SingleSwitch', {
                       title: elementObject.title,
                       subtitle: elementObject.biliner,
                       body: elementObject.body,
                       image: elementObject.image,
-                      author: elementObject.user.name,
+                      author: elementObject.author,
                     }
                   )}>
                   <Image source={{uri: elementObject.image}} style={{height: 200, width: null, flex: 1}}/>
                   </CardItem>
                   <CardItem button onPress= {()=> {Linking.openURL('https://google.com')}} style={{textAlign:'justify'}}>
                   <Body>
-                    <Title style= {{fontSize:25, fontWeight: 'normal', textAlign: 'justify', }}>{elementObject.title}</Title>
-                    <Subtitle style= {{fontSize:15, color: 'green', fontStyle: 'italic'}}>{elementObject.biliner}</Subtitle>
+                    <Text style= {{fontSize:25, fontWeight: 'normal', textAlign: 'justify', }}>{elementObject.title}</Text>
+                    <Text note style= {{fontSize:15, color: 'green', fontStyle: 'italic'}}>{elementObject.biliner}</Text>
                   </Body>
                   </CardItem>
                </Card>
           )
         }
-        )
+      
+
+        );
       }
     }
 
