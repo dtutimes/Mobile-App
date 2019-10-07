@@ -1,94 +1,90 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, ActivityIndicator} from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Button, Icon, Title, Body, Subtitle, Left, Right} from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 class InstaTab extends Component {
+ 
+  constructor(props){
+    super(props);
+    this.state = {
+      isLoading : true,
+      dataSource : null
+    }
+  }
+
+  async componentDidMount(){
+   try{ const response = await fetch('https://api.myjson.com/bins/z1m91');
+    const responseJson = await response.json();
+    this.setState({isLoading : false, dataSource : responseJson.posts}, function(){
+
+    });
+  }
+  catch(error){
+    console.error(error);
+  }
+
+
+  }
+
+
   render(){
-    return (
+    if(this.state.isLoading){
+      return <View style = {{flex:1 , justifyContent : 'center'}}>
+        <ActivityIndicator />
+
+      </View>
+    }
+
+    return(
       <Container>
         <Content>
-          <Card transparent>
+{this.displaydata()}
+        </Content>
+      </Container>
+      
+    )
+    
+}
 
-            <CardItem>
-              <Left>
-                <Thumbnail source={require('../goldbloom.jpg')} />
-                <Body>
-                  <Text style={{fontWeight:'bold'}}>dtu_times</Text>
-                  <Text>X TIME AGO</Text>
-                </Body>
-              </Left>
-            </CardItem>
-            <CardItem cardBody>
-              <Image source={require('../goldbloom.jpg')} style={{height: 200, width: null, flex:1}} />
-            </CardItem>
-            <CardItem>
-                <Ionicons name={'md-heart'} size={25} color={'green'} />
-                <Text>X likes</Text>
-            </CardItem>
-            <CardItem>
-              <Body>
-                <Text style={{fontWeight:'bold'}}>dtu_times</Text>
-                <Text>Maybe it is a blessing in disguise. I see my reflection in your eyes, I know you see it too.</Text>
-              </Body>
-            </CardItem>
-         </Card>
-
-         <Card transparent>
-
-           <CardItem>
-             <Left>
-               <Thumbnail source={require('../goldbloom.jpg')} />
-               <Body>
-                 <Text style={{fontWeight:'bold'}}>dtu_times</Text>
-                 <Text>X TIME AGO</Text>
-               </Body>
-             </Left>
-           </CardItem>
-           <CardItem cardBody>
-             <Image source={require('../goldbloom.jpg')} style={{height: 200, width: null, flex:1}} />
-           </CardItem>
-           <CardItem>
-               <Ionicons name={'md-heart'} size={25} color={'green'} />
-               <Text>X likes</Text>
-           </CardItem>
-           <CardItem>
-             <Body>
-               <Text style={{fontWeight:'bold'}}>dtu_times</Text>
-               <Text>Maybe it is a blessing in disguise. I see my reflection in your eyes, I know you see it too.</Text>
-             </Body>
-           </CardItem>
-        </Card>
-
+displaydata() {
+  return this.state.dataSource.map( (item) => {
+    return (
+    
         <Card transparent>
 
           <CardItem>
             <Left>
-              <Thumbnail source={require('../goldbloom.jpg')} />
+              <Thumbnail source={{uri:item.thumbnail}} />
               <Body>
-                <Text style={{fontWeight:'bold'}}>dtu_times</Text>
-                <Text>X TIME AGO</Text>
+                <Text style={{fontWeight:'bold'}}>{item.pagetitle}</Text>
+                <Text>{item.time}</Text>
               </Body>
             </Left>
           </CardItem>
           <CardItem cardBody>
-            <Image source={require('../goldbloom.jpg')} style={{height: 200, width: null, flex:1}} />
+            <Image source={{uri:item.image}} style={{height: 200, width: null, flex:1}} />
           </CardItem>
           <CardItem>
               <Ionicons name={'md-heart'} size={25} color={'green'} />
-              <Text>X likes</Text>
+              <Text>{item.likes}</Text>
           </CardItem>
           <CardItem>
             <Body>
-              <Text style={{fontWeight:'bold'}}>dtu_times</Text>
-              <Text>Maybe it is a blessing in disguise. I see my reflection in your eyes, I know you see it too.</Text>
+              <Text style={{fontWeight:'bold'}}>{item.title}</Text>
+              <Text>{item.body}</Text>
             </Body>
           </CardItem>
        </Card>
-       
-        </Content>
-      </Container>
-    )
+
+      
+  )
   }
+)
+
 }
+}
+
 export default InstaTab;
+
+
